@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { Eye, Heart, ShoppingBag, Check } from 'lucide-react';
+import { Eye, ShoppingBag, Check } from 'lucide-react';
 import { Product, Language } from '../types';
 import { TRANSLATIONS } from '../translations';
 
 interface ProductCardProps {
   product: Product;
   language: Language;
-  isWishlisted: boolean;
-  onToggleWishlist: (product: Product) => void;
   onQuickView: (product: Product) => void;
   onAddToCart: (product: Product, size: string) => void;
 }
@@ -15,8 +13,6 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   language,
-  isWishlisted,
-  onToggleWishlist,
   onQuickView,
   onAddToCart,
 }) => {
@@ -54,24 +50,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             {language === 'ar' ? product.categoryNameAr : product.categoryName}
           </span>
         </div>
-
-        {/* Wishlist button */}
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleWishlist(product);
-          }}
-          className={`absolute top-3 right-3 p-2 rounded-full transition-all duration-200 ${
-            isWishlisted
-              ? 'bg-[#C8A97E] text-white shadow-xs'
-              : 'bg-[#F7F3EC]/85 text-[#0D1B2A] hover:bg-[#F7F3EC] hover:text-[#C8A97E]'
-          }`}
-          title={isWishlisted ? 'Retirer des favoris' : 'Ajouter aux favoris'}
-          aria-label="Favoris"
-        >
-          <Heart className="w-3.5 h-3.5" fill={isWishlisted ? 'currentColor' : 'none'} strokeWidth={1.5} />
-        </button>
 
         {/* Hover Quick actions overlay */}
         <div 

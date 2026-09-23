@@ -1,11 +1,10 @@
 import React from 'react';
-import { Phone, MessageCircle, ShieldCheck, CreditCard, Banknote, Landmark, Globe } from 'lucide-react';
+import { MessageCircle, CreditCard, Banknote, Landmark } from 'lucide-react';
 import { Language, Category } from '../types';
 import { TRANSLATIONS } from '../translations';
 
 interface FooterProps {
   language: Language;
-  onLanguageChange: (lang: Language) => void;
   onSelectCategory: (category: Category) => void;
   onOpenContact: () => void;
   onOpenSizeGuide: () => void;
@@ -14,7 +13,6 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({
   language,
-  onLanguageChange,
   onSelectCategory,
   onOpenContact,
   onOpenSizeGuide,
@@ -54,29 +52,6 @@ export const Footer: React.FC<FooterProps> = ({
             <p className="text-xs text-[#F7F3EC]/70 font-light leading-relaxed">
               {t.footer.tagline} {t.footer.madeInTunisia}.
             </p>
-
-            {/* Language Switcher in Footer */}
-            <div className="pt-2 flex items-center gap-2 text-xs">
-              <Globe className="w-3.5 h-3.5 text-[#C8A97E]" />
-              <span className="text-[#F7F3EC]/60 text-[11px]">Langue / اللغة :</span>
-              <button
-                onClick={() => onLanguageChange('fr')}
-                className={`px-2 py-0.5 text-[11px] transition-colors ${
-                  language === 'fr' ? 'text-[#C8A97E] font-medium border-b border-[#C8A97E]' : 'text-[#F7F3EC]/60 hover:text-white'
-                }`}
-              >
-                Français
-              </button>
-              <span className="text-[#F7F3EC]/30">|</span>
-              <button
-                onClick={() => onLanguageChange('ar')}
-                className={`px-2 py-0.5 text-[11px] transition-colors ${
-                  language === 'ar' ? 'text-[#C8A97E] font-medium border-b border-[#C8A97E]' : 'text-[#F7F3EC]/60 hover:text-white'
-                }`}
-              >
-                العربية
-              </button>
-            </div>
           </div>
 
           {/* Col 2: Collections */}

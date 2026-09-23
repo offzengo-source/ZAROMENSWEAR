@@ -3,15 +3,13 @@ import { Product, Language, Category } from '../types';
 import { CATEGORIES_LIST } from '../data/products';
 import { ProductCard } from './ProductCard';
 import { TRANSLATIONS } from '../translations';
-import { SlidersHorizontal, Sparkles } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 
 interface ProductGridProps {
   products: Product[];
   language: Language;
   selectedCategory: Category;
   onSelectCategory: (cat: Category) => void;
-  wishlistIds: string[];
-  onToggleWishlist: (product: Product) => void;
   onQuickView: (product: Product) => void;
   onAddToCart: (product: Product, size: string) => void;
 }
@@ -21,8 +19,6 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   language,
   selectedCategory,
   onSelectCategory,
-  wishlistIds,
-  onToggleWishlist,
   onQuickView,
   onAddToCart,
 }) => {
@@ -66,11 +62,11 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
 
         {/* Clean Filter Bar & Sorting */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-[#0D1B2A]/10 mb-12">
-          {/* Category Tabs (zero pill discipline: clean underline / active state) */}
+          {/* Category Tabs */}
           <div className="flex items-center gap-2 sm:gap-4 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
             {CATEGORIES_LIST.map((cat) => {
               const isActive = selectedCategory === cat.id;
-              const label = language === 'ar' ? cat.nameAr : cat.nameFr;
+              const label = cat.nameFr;
               return (
                 <button
                   key={cat.id}
@@ -95,28 +91,20 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               onChange={(e) => setSortBy(e.target.value as any)}
               className="bg-transparent border-0 border-b border-[#0D1B2A]/20 py-1 pl-2 pr-6 text-xs text-[#0D1B2A] focus:outline-hidden focus:border-[#C8A97E] cursor-pointer"
             >
-              <option value="featured">
-                {language === 'ar' ? 'اختيارات الدار' : 'Sélection Maison'}
-              </option>
-              <option value="price-asc">
-                {language === 'ar' ? 'السعر: من الأقل إلى الأعلى' : 'Prix croissant'}
-              </option>
-              <option value="price-desc">
-                {language === 'ar' ? 'السعر: من الأعلى إلى الأقل' : 'Prix décroissant'}
-              </option>
+              <option value="featured">Sélection Maison</option>
+              <option value="price-asc">Prix croissant</option>
+              <option value="price-desc">Prix décroissant</option>
             </select>
           </div>
         </div>
 
-        {/* 3 columns Grid with generous air and whitespace */}
+        {/* 3 columns Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-14">
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
               language={language}
-              isWishlisted={wishlistIds.includes(product.id)}
-              onToggleWishlist={onToggleWishlist}
               onQuickView={onQuickView}
               onAddToCart={onAddToCart}
             />
@@ -127,26 +115,26 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
         <div className="mt-20 pt-12 border-t border-[#0D1B2A]/10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center text-xs text-[#0D1B2A]/80">
           <div className="flex flex-col items-center">
             <span className="font-serif text-base text-[#0D1B2A] mb-1">
-              {language === 'ar' ? 'توصيل مجاني وسريع' : 'Livraison Discrète en Tunisie'}
+              Livraison Discrète en Tunisie
             </span>
             <p className="font-light text-[#0D1B2A]/65">
-              {language === 'ar' ? 'مجاني للطلبات الأكثر من 250 د.ت بين 24 و 48 ساعة' : 'Offerte dès 250 DT sous 24h à 48h partout en Tunisie'}
+              Offerte dès 250 DT sous 24h à 48h partout en Tunisie
             </p>
           </div>
           <div className="flex flex-col items-center">
             <span className="font-serif text-base text-[#0D1B2A] mb-1">
-              {language === 'ar' ? 'الدفع عند الاستلام' : 'Paiement à la Livraison'}
+              Paiement à la Livraison
             </span>
             <p className="font-light text-[#0D1B2A]/65">
-              {language === 'ar' ? 'نقداً عند معاينة طردك واستلامه' : 'Réglez directement en espèces auprès de notre coursier'}
+              Réglez directement en espèces auprès de notre coursier
             </p>
           </div>
           <div className="flex flex-col items-center">
             <span className="font-serif text-base text-[#0D1B2A] mb-1">
-              {language === 'ar' ? 'خدمة القياس والتعديل' : 'Ajustement & Demi-Mesure'}
+              Ajustement & Demi-Mesure
             </span>
             <p className="font-light text-[#0D1B2A]/65">
-              {language === 'ar' ? 'إمكانية ضبط الأطوال والأكمام في صالوناتنا' : 'Retouches offertes dans nos salons de Tunis et La Marsa'}
+              Retouches offertes dans nos salons de Tunis et La Marsa
             </p>
           </div>
         </div>

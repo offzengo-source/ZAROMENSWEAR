@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Search, Menu, X, Heart, Phone } from 'lucide-react';
+import { ShoppingBag, Menu, X, Phone } from 'lucide-react';
 import { Language, Category } from '../types';
 import { TRANSLATIONS } from '../translations';
 
 interface HeaderProps {
   language: Language;
-  onLanguageChange: (lang: Language) => void;
   cartCount: number;
-  wishlistCount: number;
   onOpenCart: () => void;
-  onOpenWishlist: () => void;
-  onOpenSearch: () => void;
   onOpenContact: () => void;
   onSelectCategory: (category: Category) => void;
   onNavigateSection: (sectionId: string) => void;
@@ -18,12 +14,8 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({
   language,
-  onLanguageChange,
   cartCount,
-  wishlistCount,
   onOpenCart,
-  onOpenWishlist,
-  onOpenSearch,
   onOpenContact,
   onSelectCategory,
   onNavigateSection,
@@ -61,7 +53,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Mobile menu trigger */}
-            <div className="flex items-center lg:hidden gap-2">
+            <div className="flex items-center lg:hidden">
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(true)}
@@ -69,14 +61,6 @@ export const Header: React.FC<HeaderProps> = ({
                 aria-label="Menu"
               >
                 <Menu strokeWidth={1.5} className="w-5 h-5" />
-              </button>
-              <button
-                type="button"
-                onClick={onOpenSearch}
-                className="p-2 text-[#0D1B2A] hover:text-[#C8A97E] transition-colors focus:outline-hidden"
-                aria-label="Recherche"
-              >
-                <Search strokeWidth={1.5} className="w-4 h-4" />
               </button>
             </div>
 
@@ -123,42 +107,8 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
               </nav>
 
-              {/* Utility icons */}
-              <div className="flex items-center gap-3 sm:gap-4 pl-2 lg:border-l lg:border-[#0D1B2A]/10">
-                <button
-                  type="button"
-                  onClick={() => onLanguageChange(language === 'fr' ? 'ar' : 'fr')}
-                  className="text-[11px] font-medium tracking-wider text-[#0D1B2A] hover:text-[#C8A97E] transition-colors py-0.5 px-2 border border-[#0D1B2A]/20 hover:border-[#C8A97E] rounded-xs"
-                  title="Changer de langue / تغيير اللغة"
-                >
-                  {language === 'fr' ? 'عربي' : 'FR'}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={onOpenSearch}
-                  className="hidden lg:inline-flex p-1.5 text-[#0D1B2A] hover:text-[#C8A97E] transition-colors"
-                  title="Rechercher"
-                  aria-label="Recherche"
-                >
-                  <Search strokeWidth={1.4} className="w-4 h-4" />
-                </button>
-
-                <button
-                  type="button"
-                  onClick={onOpenWishlist}
-                  className="relative p-1.5 text-[#0D1B2A] hover:text-[#C8A97E] transition-colors"
-                  title="Favoris"
-                  aria-label="Favoris"
-                >
-                  <Heart strokeWidth={1.4} className="w-4 h-4" />
-                  {wishlistCount > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[#C8A97E] text-[#0D1B2A] font-medium text-[9px] rounded-full flex items-center justify-center">
-                      {wishlistCount}
-                    </span>
-                  )}
-                </button>
-
+              {/* Shopping Bag only */}
+              <div className="flex items-center pl-2 lg:border-l lg:border-[#0D1B2A]/10">
                 <button
                   type="button"
                   onClick={onOpenCart}
@@ -166,7 +116,7 @@ export const Header: React.FC<HeaderProps> = ({
                   title="Panier"
                   aria-label="Panier"
                 >
-                  <ShoppingBag strokeWidth={1.4} className="w-4 h-4" />
+                  <ShoppingBag strokeWidth={1.4} className="w-5 h-5" />
                   {cartCount > 0 && (
                     <span className="w-4 h-4 bg-[#0D1B2A] text-[#F7F3EC] font-medium text-[9px] rounded-full flex items-center justify-center">
                       {cartCount}
@@ -205,33 +155,6 @@ export const Header: React.FC<HeaderProps> = ({
                 >
                   <X strokeWidth={1.5} className="w-5 h-5" />
                 </button>
-              </div>
-
-              {/* Language Switcher Mobile */}
-              <div className="py-4 border-b border-[#0D1B2A]/10 flex items-center justify-between text-xs">
-                <span className="text-[#0D1B2A]/60 uppercase tracking-widest text-[10px]">Langue / اللغة</span>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => onLanguageChange('fr')}
-                    className={`px-2.5 py-1 text-[11px] rounded-xs ${
-                      language === 'fr'
-                        ? 'bg-[#0D1B2A] text-[#F7F3EC]'
-                        : 'text-[#0D1B2A]/70 hover:bg-[#C8A97E]/20'
-                    }`}
-                  >
-                    Français
-                  </button>
-                  <button
-                    onClick={() => onLanguageChange('ar')}
-                    className={`px-2.5 py-1 text-[11px] rounded-xs ${
-                      language === 'ar'
-                        ? 'bg-[#0D1B2A] text-[#F7F3EC]'
-                        : 'text-[#0D1B2A]/70 hover:bg-[#C8A97E]/20'
-                    }`}
-                  >
-                    العربية
-                  </button>
-                </div>
               </div>
 
               {/* Nav links */}

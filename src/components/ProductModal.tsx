@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ShoppingBag, Heart, Check, Ruler, Truck, Shield, Sparkles } from 'lucide-react';
+import { X, ShoppingBag, Check, Ruler, Truck, Shield } from 'lucide-react';
 import { Product, Language } from '../types';
 import { TRANSLATIONS } from '../translations';
 
@@ -8,8 +8,6 @@ interface ProductModalProps {
   language: Language;
   onClose: () => void;
   onAddToCart: (product: Product, size: string, quantity: number) => void;
-  isWishlisted: boolean;
-  onToggleWishlist: (product: Product) => void;
   onOpenSizeGuide: () => void;
 }
 
@@ -18,8 +16,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({
   language,
   onClose,
   onAddToCart,
-  isWishlisted,
-  onToggleWishlist,
   onOpenSizeGuide,
 }) => {
   if (!product) return null;
@@ -49,7 +45,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
         {/* Header bar */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#0D1B2A]/10 bg-[#F7F3EC]">
           <span className="text-[10px] tracking-[0.25em] uppercase text-[#C8A97E] font-medium">
-            {language === 'ar' ? product.categoryNameAr : product.categoryName} · {product.origin}
+            {product.categoryName} · {product.origin}
           </span>
           <button
             onClick={onClose}
@@ -67,21 +63,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({
             <div className="aspect-3/4 w-full bg-[#EFE9DE] overflow-hidden border border-[#0D1B2A]/5 relative">
               <img
                 src={selectedImage}
-                alt={language === 'ar' ? product.nameAr : product.name}
+                alt={product.name}
                 className="w-full h-full object-cover object-center transition-all duration-300"
               />
-              <button
-                type="button"
-                onClick={() => onToggleWishlist(product)}
-                className={`absolute top-4 right-4 p-2.5 rounded-full transition-colors ${
-                  isWishlisted
-                    ? 'bg-[#C8A97E] text-white'
-                    : 'bg-[#F7F3EC]/80 text-[#0D1B2A] hover:bg-[#F7F3EC] hover:text-[#C8A97E]'
-                }`}
-                title="Favoris"
-              >
-                <Heart className="w-4 h-4" fill={isWishlisted ? 'currentColor' : 'none'} />
-              </button>
             </div>
 
             {/* Thumbnails */}
@@ -110,10 +94,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({
             <div className="space-y-5">
               <div>
                 <span className="text-xs uppercase tracking-wider text-[#C8A97E] font-medium">
-                  {language === 'ar' ? product.fabricAr : product.fabric}
+                  {product.fabric}
                 </span>
                 <h2 className="font-serif text-2xl sm:text-3xl text-[#0D1B2A] mt-1 font-normal leading-snug">
-                  {language === 'ar' ? product.nameAr : product.name}
+                  {product.name}
                 </h2>
                 <div className="mt-2 text-xl font-medium text-[#0D1B2A]">
                   {product.priceDT} <span className="text-sm font-normal uppercase text-[#0D1B2A]/70">{t.products.currency}</span>
@@ -122,7 +106,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
               {/* Description */}
               <p className="text-sm text-[#0D1B2A]/80 font-light leading-relaxed">
-                {language === 'ar' ? product.descriptionAr : product.description}
+                {product.description}
               </p>
 
               {/* Size Selector */}
@@ -189,7 +173,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                   {t.products.detailsTitle}
                 </span>
                 <ul className="text-xs text-[#0D1B2A]/75 space-y-1 font-light">
-                  {(language === 'ar' ? product.detailsAr : product.details).map((item, i) => (
+                  {product.details.map((item, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span className="text-[#C8A97E] mt-0.5">·</span>
                       <span>{item}</span>
@@ -203,7 +187,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 <span className="font-medium not-italic font-sans text-[11px] uppercase tracking-wider text-[#0D1B2A] block mb-0.5">
                   {t.products.careTitle}
                 </span>
-                {language === 'ar' ? product.careAr : product.care}
+                {product.care}
               </div>
             </div>
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Product, CartItem, Language, Category } from './types';
 import { PRODUCTS } from './data/products';
-import { TRANSLATIONS } from './translations';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProductGrid } from './components/ProductGrid';
@@ -9,33 +8,18 @@ import { Footer } from './components/Footer';
 import { ProductModal } from './components/ProductModal';
 import { CartDrawer } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
-import { WishlistDrawer } from './components/WishlistDrawer';
-import { SearchModal } from './components/SearchModal';
 import { ContactModal } from './components/ContactModal';
 import { SizeGuideModal } from './components/SizeGuideModal';
-import { Check, ShoppingBag } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 export default function App() {
-  // Language state
-  const [language, setLanguage] = useState<Language>(() => {
-    const saved = localStorage.getItem('zaromenswear_lang');
-    return (saved === 'ar' ? 'ar' : 'fr') as Language;
-  });
+  // Langue exclusivement en français
+  const language: Language = 'fr';
 
   // Cart state persisted in localStorage
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem('zaromenswear_cart');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
-
-  // Wishlist state persisted in localStorage
-  const [wishlistIds, setWishlistIds] = useState<string[]>(() => {
-    try {
-      const saved = localStorage.getItem('zaromenswear_wishlist');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -49,33 +33,26 @@ export default function App() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
-  const [wishlistOpen, setWishlistOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
 
   // Promo code & discount
   const [discountRate, setDiscountRate] = useState<number>(0);
 
-  // Subtle toast notification
+  // Toast notification
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Sync language with HTML dir and lang
+  // Sync document language attributes
   useEffect(() => {
-    document.documentElement.lang = language;
-    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
-    localStorage.setItem('zaromenswear_lang', language);
-  }, [language]);
+    document.documentElement.lang = 'fr';
+    document.documentElement.dir = 'ltr';
+    localStorage.setItem('zaromenswear_lang', 'fr');
+  }, []);
 
   // Sync cart with localStorage
   useEffect(() => {
     localStorage.setItem('zaromenswear_cart', JSON.stringify(cart));
   }, [cart]);
-
-  // Sync wishlist with localStorage
-  useEffect(() => {
-    localStorage.setItem('zaromenswear_wishlist', JSON.stringify(wishlistIds));
-  }, [wishlistIds]);
 
   // Show toast notification
   const showToast = (message: string) => {
@@ -99,12 +76,7 @@ export default function App() {
       return [...prev, { product, size, quantity }];
     });
 
-    const prodName = language === 'ar' ? product.nameAr : product.name;
-    showToast(
-      language === 'ar'
-        ? `تمت إضافة "${prodName}" إلى خزانة الطلب`
-        : `"${prodName}" ajouté à votre vestiaire`
-    );
+    showToast(`"${product.name}" ajouté à votre vestiaire`);
   };
 
   // Update cart item quantity
@@ -129,16 +101,6 @@ export default function App() {
     );
   };
 
-  // Wishlist toggle
-  const handleToggleWishlist = (product: Product) => {
-    setWishlistIds((prev) => {
-      if (prev.includes(product.id)) {
-        return prev.filter((id) => id !== product.id);
-      }
-      return [...prev, product.id];
-    });
-  };
-
   // Promo code validation
   const handleApplyPromo = (code: string) => {
     const clean = code.trim().toUpperCase();
@@ -160,20 +122,13 @@ export default function App() {
   // Cart total items
   const cartItemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
-  // Products saved in wishlist
-  const wishlistProducts = PRODUCTS.filter((p) => wishlistIds.includes(p.id));
-
   return (
-    <div className={`min-h-screen bg-[#F7F3EC] text-[#0D1B2A] flex flex-col font-sans ${language === 'ar' ? 'font-arabic' : ''}`}>
-      {/* Global Navigation Header */}
+    <div className="min-h-screen bg-[#F7F3EC] text-[#0D1B2A] flex flex-col font-sans">
+      {/* Global Navigation Header (sans recherche, sans favoris, sans sélecteur de langue) */}
       <Header
         language={language}
-        onLanguageChange={setLanguage}
         cartCount={cartItemCount}
-        wishlistCount={wishlistIds.length}
         onOpenCart={() => setCartOpen(true)}
-        onOpenWishlist={() => setWishlistOpen(true)}
-        onOpenSearch={() => setSearchOpen(true)}
         onOpenContact={() => setContactOpen(true)}
         onSelectCategory={(cat) => {
           setSelectedCategory(cat);
@@ -183,21 +138,19 @@ export default function App() {
       />
 
       <main className="flex-1">
-        {/* Hero Section featuring the user's signature knit polo */}
+        {/* Hero Section */}
         <Hero
           language={language}
           onExplore={() => handleNavigateSection('products')}
           onHeritage={() => handleNavigateSection('products')}
         />
 
-        {/* Catalog & Product Grid (Pulls & T-shirts only) */}
+        {/* Catalog & Product Grid (Pulls & T-shirts) */}
         <ProductGrid
           products={PRODUCTS}
           language={language}
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
-          wishlistIds={wishlistIds}
-          onToggleWishlist={handleToggleWishlist}
           onQuickView={setSelectedProduct}
           onAddToCart={(prod, size) => handleAddToCart(prod, size, 1)}
         />
@@ -206,7 +159,6 @@ export default function App() {
       {/* Footer */}
       <Footer
         language={language}
-        onLanguageChange={setLanguage}
         onSelectCategory={(cat) => {
           setSelectedCategory(cat);
           handleNavigateSection('products');
@@ -225,8 +177,6 @@ export default function App() {
           handleAddToCart(prod, size, qty);
           setSelectedProduct(null);
         }}
-        isWishlisted={selectedProduct ? wishlistIds.includes(selectedProduct.id) : false}
-        onToggleWishlist={handleToggleWishlist}
         onOpenSizeGuide={() => setSizeGuideOpen(true)}
       />
 
@@ -262,27 +212,7 @@ export default function App() {
         }}
       />
 
-      {/* Wishlist Drawer */}
-      <WishlistDrawer
-        isOpen={wishlistOpen}
-        onClose={() => setWishlistOpen(false)}
-        wishlistProducts={wishlistProducts}
-        language={language}
-        onRemoveWishlist={(id) => setWishlistIds((prev) => prev.filter((item) => item !== id))}
-        onQuickView={(p) => setSelectedProduct(p)}
-        onAddToCart={(p, size) => handleAddToCart(p, size, 1)}
-      />
-
-      {/* Search Modal */}
-      <SearchModal
-        isOpen={searchOpen}
-        onClose={() => setSearchOpen(false)}
-        products={PRODUCTS}
-        language={language}
-        onSelectProduct={(p) => setSelectedProduct(p)}
-      />
-
-      {/* Contact & Private Salons Modal */}
+      {/* Contact & Salons Privés Modal */}
       <ContactModal
         isOpen={contactOpen}
         onClose={() => setContactOpen(false)}
@@ -310,7 +240,7 @@ export default function App() {
             }}
             className="text-[11px] uppercase tracking-wider text-[#C8A97E] hover:text-white underline whitespace-nowrap pl-2"
           >
-            {language === 'ar' ? 'عرض' : 'Voir'}
+            Voir
           </button>
         </div>
       )}
