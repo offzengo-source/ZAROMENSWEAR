@@ -14,7 +14,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onExplore, onHeritage }) =
 
   return (
     <section className="relative min-h-[90vh] md:min-h-[92vh] flex items-end justify-start overflow-hidden bg-[#0D1B2A]">
-      {/* Background imagery: Photo requested by user (man with convertible car at sunset wearing the signature knit polo) */}
+      {/* Background imagery: Photo with gentleman and knit polo in warm golden hour light */}
       <div className="absolute inset-0 z-0">
         <img
           src="/src/assets/images/polo_maille_hero_1790183116725.jpg"
@@ -22,7 +22,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onExplore, onHeritage }) =
           referrerPolicy="no-referrer"
           className="w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.04] transition-transform duration-1000 scale-[1.01]"
         />
-        {/* Subtle dual gradient overlay: dark bottom for readable contrast, warm bronze ambient */}
+        {/* Subtle dual gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0D1B2A]/95 via-[#0D1B2A]/40 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0D1B2A]/80 via-transparent to-transparent hidden md:block" />
       </div>
@@ -31,21 +31,21 @@ export const Hero: React.FC<HeroProps> = ({ language, onExplore, onHeritage }) =
       <div className="absolute top-24 right-8 lg:right-16 z-20 hidden md:block max-w-xs p-4 bg-[#F7F3EC]/90 backdrop-blur-md border border-[#C8A97E]/40 shadow-2xl">
         <div className="flex items-center gap-2 mb-1.5 text-[10px] uppercase tracking-[0.2em] text-[#C8A97E] font-medium">
           <Sparkles className="w-3.5 h-3.5 text-[#C8A97E]" />
-          <span>{language === 'ar' ? 'قطعة الموسم الحصرية' : 'Édition Spéciale 2026'}</span>
+          <span>Édition Spéciale 2026</span>
         </div>
         <h3 className="font-serif text-sm text-[#0D1B2A] font-medium leading-snug">
-          {language === 'ar' ? 'بولو تريكو ريفيرا شوكولاتة وعاجي' : 'Polo en Maille Riviera Bicolore'}
+          Polo en Maille Riviera Bicolore
         </h3>
         <p className="text-[11px] text-[#0D1B2A]/70 font-light mt-1">
-          {language === 'ar' ? 'حياكة إيطالية فاخرة بقطن ناعم' : 'Maille tricotée fine en coton & soie'}
+          Maille tricotée fine en coton & soie d'Italie
         </p>
         <div className="mt-3 pt-2.5 border-t border-[#0D1B2A]/10 flex items-center justify-between">
           <span className="text-xs font-semibold text-[#0D1B2A]">290 DT</span>
           <button
             onClick={onExplore}
-            className="text-[11px] uppercase tracking-wider text-[#C8A97E] hover:text-[#0D1B2A] font-medium flex items-center gap-1 transition-colors"
+            className="text-[11px] uppercase tracking-wider text-[#C8A97E] hover:text-[#0D1B2A] font-medium flex items-center gap-1 transition-colors cursor-pointer"
           >
-            <span>{language === 'ar' ? 'طلب القطعة' : 'Commander'}</span>
+            <span>Commander</span>
             <ArrowRight className="w-3 h-3" />
           </button>
         </div>
@@ -76,7 +76,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onExplore, onHeritage }) =
           <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <button
               onClick={onExplore}
-              className="inline-flex items-center gap-3 px-7 py-3.5 bg-[#F7F3EC] text-[#0D1B2A] text-xs sm:text-sm font-medium tracking-[0.16em] uppercase hover:bg-[#C8A97E] hover:text-[#0D1B2A] transition-all duration-300 shadow-sm"
+              className="inline-flex items-center gap-3 px-7 py-3.5 bg-[#F7F3EC] text-[#0D1B2A] text-xs sm:text-sm font-medium tracking-[0.16em] uppercase hover:bg-[#C8A97E] hover:text-[#0D1B2A] transition-all duration-300 shadow-sm cursor-pointer"
             >
               <span>{t.hero.discoverBtn}</span>
               <ArrowRight className="w-4 h-4" />
@@ -84,7 +84,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onExplore, onHeritage }) =
 
             <button
               onClick={onHeritage}
-              className="inline-flex items-center gap-2 px-6 py-3.5 border border-[#F7F3EC]/40 text-[#F7F3EC] text-xs sm:text-sm font-light tracking-[0.16em] uppercase hover:border-[#C8A97E] hover:text-[#C8A97E] transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3.5 border border-[#F7F3EC]/40 text-[#F7F3EC] text-xs sm:text-sm font-light tracking-[0.16em] uppercase hover:border-[#C8A97E] hover:text-[#C8A97E] transition-colors cursor-pointer"
             >
               <span>{t.hero.heritageBtn}</span>
             </button>
@@ -101,7 +101,8 @@ export const Hero: React.FC<HeroProps> = ({ language, onExplore, onHeritage }) =
       {/* Down indicator */}
       <button
         onClick={onExplore}
-        className="absolute bottom-6 right-8 z-10 text-[#F7F3EC]/50 hover:text-[#C8A97E] transition-colors hidden sm:flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase"
+        className="absolute bottom-6 right-8 z-10 text-[#F7F3EC]/50 hover:text-[#C8A97E] transition-colors hidden sm:flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase cursor-pointer"
+        aria-label="Défiler vers la collection"
       >
         <span>Défiler</span>
         <ChevronDown className="w-4 h-4 animate-bounce" />

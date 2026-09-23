@@ -39,21 +39,30 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <div className="relative aspect-3/4 w-full overflow-hidden bg-[#EFE9DE] border border-[#0D1B2A]/5">
         <img
           src={product.image}
-          alt={language === 'ar' ? product.nameAr : product.name}
+          alt={product.name}
           loading="lazy"
           className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-103"
         />
 
-        {/* Subtle fabric kicker on top left */}
-        <div className="absolute top-3 left-3 pointer-events-none">
-          <span className="text-[10px] uppercase tracking-wider text-[#0D1B2A]/80 bg-[#F7F3EC]/90 px-2 py-1 backdrop-blur-xs font-light">
-            {language === 'ar' ? product.categoryNameAr : product.categoryName}
+        {/* Subtle category kicker on top left */}
+        <div className="absolute top-3 left-3 pointer-events-none z-10">
+          <span className="text-[10px] uppercase tracking-wider text-[#0D1B2A]/85 bg-[#F7F3EC]/90 px-2 py-1 backdrop-blur-xs font-light shadow-xs">
+            {product.categoryName}
           </span>
         </div>
 
-        {/* Hover Quick actions overlay */}
+        {/* Exclusive badge on top right */}
+        {product.badge && (
+          <div className="absolute top-3 right-3 pointer-events-none z-10">
+            <span className="text-[9px] uppercase tracking-[0.16em] text-[#C8A97E] bg-[#0D1B2A]/90 px-2 py-1 backdrop-blur-xs font-medium border border-[#C8A97E]/30 shadow-xs">
+              {product.badge}
+            </span>
+          </div>
+        )}
+
+        {/* Hover Quick actions overlay (Desktop) */}
         <div 
-          className={`absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0D1B2A]/80 via-[#0D1B2A]/40 to-transparent p-4 transition-all duration-300 flex flex-col gap-2 ${
+          className={`absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0D1B2A]/85 via-[#0D1B2A]/50 to-transparent p-4 transition-all duration-300 hidden sm:flex flex-col gap-2 ${
             hovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
           }`}
         >
@@ -80,7 +89,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             type="button"
             onClick={handleAdd}
             disabled={justAdded}
-            className="w-full py-2 px-3 bg-[#F7F3EC] text-[#0D1B2A] hover:bg-[#C8A97E] text-[11px] font-medium tracking-widest uppercase transition-colors flex items-center justify-center gap-2"
+            className="w-full py-2 px-3 bg-[#F7F3EC] text-[#0D1B2A] hover:bg-[#C8A97E] text-[11px] font-medium tracking-widest uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer"
           >
             {justAdded ? (
               <>
@@ -101,12 +110,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <div className="pt-4 pb-2 flex flex-col text-left">
         {/* Subtle fabric note */}
         <span className="text-[11px] text-[#C8A97E] font-medium tracking-wide line-clamp-1 mb-1">
-          {language === 'ar' ? product.fabricAr : product.fabric}
+          {product.fabric}
         </span>
 
         {/* Product title in classic serif */}
         <h3 className="font-serif text-base sm:text-lg text-[#0D1B2A] group-hover:text-[#1B3A2B] transition-colors leading-snug line-clamp-2">
-          {language === 'ar' ? product.nameAr : product.name}
+          {product.name}
         </h3>
 
         {/* Price in DT */}
@@ -115,9 +124,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             {product.priceDT} <span className="text-xs text-[#0D1B2A]/70 uppercase">{t.products.currency}</span>
           </p>
 
-          <span className="text-[11px] text-[#0D1B2A]/50 group-hover:text-[#C8A97E] transition-colors flex items-center gap-1 font-light">
+          <span className="text-[11px] text-[#0D1B2A]/60 group-hover:text-[#C8A97E] transition-colors flex items-center gap-1 font-light">
             <Eye className="w-3 h-3" />
-            <span className="hidden sm:inline">{t.products.quickView}</span>
+            <span className="text-[11px] font-sans">Aperçu & Tailles</span>
           </span>
         </div>
       </div>

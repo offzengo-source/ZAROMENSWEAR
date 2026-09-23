@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Ruler, Check } from 'lucide-react';
+import { X, Ruler, Check, Info } from 'lucide-react';
 import { Language } from '../types';
 import { TRANSLATIONS } from '../translations';
 
@@ -10,7 +10,7 @@ interface SizeGuideModalProps {
 }
 
 export const SizeGuideModal: React.FC<SizeGuideModalProps> = ({ isOpen, onClose, language }) => {
-  const [tab, setTab] = useState<'jackets' | 'shirts' | 'trousers' | 'shoes'>('jackets');
+  const [tab, setTab] = useState<'pulls' | 'tshirts' | 'advice'>('pulls');
   const t = TRANSLATIONS[language];
 
   if (!isOpen) return null;
@@ -25,7 +25,7 @@ export const SizeGuideModal: React.FC<SizeGuideModalProps> = ({ isOpen, onClose,
             <Ruler className="w-4 h-4 text-[#C8A97E]" />
             <h2 className="font-serif text-xl text-[#0D1B2A]">{t.sizeGuide.title}</h2>
           </div>
-          <button onClick={onClose} className="p-1 text-[#0D1B2A] hover:text-[#C8A97E]">
+          <button onClick={onClose} className="p-1 text-[#0D1B2A] hover:text-[#C8A97E]" aria-label="Fermer">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -36,135 +36,105 @@ export const SizeGuideModal: React.FC<SizeGuideModalProps> = ({ isOpen, onClose,
           </p>
 
           {/* Category Tabs */}
-          <div className="flex border-b border-[#0D1B2A]/15 gap-4 overflow-x-auto text-xs uppercase tracking-wider">
+          <div className="flex border-b border-[#0D1B2A]/15 gap-6 text-xs uppercase tracking-wider">
             <button
-              onClick={() => setTab('jackets')}
-              className={`pb-2 transition-colors ${
-                tab === 'jackets'
+              onClick={() => setTab('pulls')}
+              className={`pb-2.5 transition-colors relative ${
+                tab === 'pulls'
                   ? 'border-b-2 border-[#0D1B2A] text-[#0D1B2A] font-semibold'
                   : 'text-[#0D1B2A]/50 hover:text-[#0D1B2A]'
               }`}
             >
-              {t.sizeGuide.jackets}
+              Pulls & Mailles Tricotées
             </button>
             <button
-              onClick={() => setTab('shirts')}
-              className={`pb-2 transition-colors ${
-                tab === 'shirts'
+              onClick={() => setTab('tshirts')}
+              className={`pb-2.5 transition-colors relative ${
+                tab === 'tshirts'
                   ? 'border-b-2 border-[#0D1B2A] text-[#0D1B2A] font-semibold'
                   : 'text-[#0D1B2A]/50 hover:text-[#0D1B2A]'
               }`}
             >
-              {t.sizeGuide.shirts}
+              T-Shirts & Polos
             </button>
             <button
-              onClick={() => setTab('trousers')}
-              className={`pb-2 transition-colors ${
-                tab === 'trousers'
+              onClick={() => setTab('advice')}
+              className={`pb-2.5 transition-colors relative ${
+                tab === 'advice'
                   ? 'border-b-2 border-[#0D1B2A] text-[#0D1B2A] font-semibold'
                   : 'text-[#0D1B2A]/50 hover:text-[#0D1B2A]'
               }`}
             >
-              {t.sizeGuide.trousers}
-            </button>
-            <button
-              onClick={() => setTab('shoes')}
-              className={`pb-2 transition-colors ${
-                tab === 'shoes'
-                  ? 'border-b-2 border-[#0D1B2A] text-[#0D1B2A] font-semibold'
-                  : 'text-[#0D1B2A]/50 hover:text-[#0D1B2A]'
-              }`}
-            >
-              {t.sizeGuide.shoes}
+              Conseils de Coupe
             </button>
           </div>
 
           {/* Table display */}
           <div className="overflow-x-auto">
-            {tab === 'jackets' && (
+            {tab === 'pulls' && (
               <table className="w-full text-xs text-left text-[#0D1B2A]/80">
                 <thead className="bg-[#EFE9DE] uppercase text-[10px] text-[#0D1B2A] tracking-wider">
                   <tr>
-                    <th className="p-2.5">Taille UE / TN</th>
+                    <th className="p-2.5">Taille</th>
                     <th className="p-2.5">Tour de poitrine (cm)</th>
-                    <th className="p-2.5">Tour de taille (cm)</th>
                     <th className="p-2.5">Carrure épaules (cm)</th>
+                    <th className="p-2.5">Longueur manches (cm)</th>
+                    <th className="p-2.5">Longueur totale (cm)</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#0D1B2A]/10 font-light">
-                  <tr><td className="p-2.5 font-medium">46 (S)</td><td className="p-2.5">92 - 95</td><td className="p-2.5">78 - 81</td><td className="p-2.5">44</td></tr>
-                  <tr><td className="p-2.5 font-medium">48 (M)</td><td className="p-2.5">96 - 99</td><td className="p-2.5">82 - 85</td><td className="p-2.5">45</td></tr>
-                  <tr><td className="p-2.5 font-medium">50 (L)</td><td className="p-2.5">100 - 103</td><td className="p-2.5">86 - 89</td><td className="p-2.5">46.5</td></tr>
-                  <tr><td className="p-2.5 font-medium">52 (XL)</td><td className="p-2.5">104 - 107</td><td className="p-2.5">90 - 94</td><td className="p-2.5">48</td></tr>
-                  <tr><td className="p-2.5 font-medium">54 (XXL)</td><td className="p-2.5">108 - 112</td><td className="p-2.5">95 - 100</td><td className="p-2.5">49.5</td></tr>
+                  <tr><td className="p-2.5 font-medium">S (46)</td><td className="p-2.5">92 – 96</td><td className="p-2.5">43 – 44</td><td className="p-2.5">63</td><td className="p-2.5">66</td></tr>
+                  <tr><td className="p-2.5 font-medium">M (48)</td><td className="p-2.5">97 – 101</td><td className="p-2.5">44 – 45.5</td><td className="p-2.5">64</td><td className="p-2.5">68</td></tr>
+                  <tr><td className="p-2.5 font-medium">L (50)</td><td className="p-2.5">102 – 106</td><td className="p-2.5">46 – 47.5</td><td className="p-2.5">65</td><td className="p-2.5">70</td></tr>
+                  <tr><td className="p-2.5 font-medium">XL (52)</td><td className="p-2.5">107 – 112</td><td className="p-2.5">48 – 49.5</td><td className="p-2.5">66</td><td className="p-2.5">72</td></tr>
+                  <tr><td className="p-2.5 font-medium">XXL (54)</td><td className="p-2.5">113 – 118</td><td className="p-2.5">50 – 51.5</td><td className="p-2.5">67</td><td className="p-2.5">74</td></tr>
                 </tbody>
               </table>
             )}
 
-            {tab === 'shirts' && (
+            {tab === 'tshirts' && (
               <table className="w-full text-xs text-left text-[#0D1B2A]/80">
                 <thead className="bg-[#EFE9DE] uppercase text-[10px] text-[#0D1B2A] tracking-wider">
                   <tr>
-                    <th className="p-2.5">Taille Col (cm)</th>
-                    <th className="p-2.5">Tour de cou</th>
-                    <th className="p-2.5">Longueur manche (cm)</th>
-                    <th className="p-2.5">Correspondance</th>
+                    <th className="p-2.5">Taille</th>
+                    <th className="p-2.5">Tour de poitrine (cm)</th>
+                    <th className="p-2.5">Carrure épaules (cm)</th>
+                    <th className="p-2.5">Longueur dos (cm)</th>
+                    <th className="p-2.5">Tour de bras (cm)</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#0D1B2A]/10 font-light">
-                  <tr><td className="p-2.5 font-medium">38 - 39</td><td className="p-2.5">38 - 39 cm</td><td className="p-2.5">64 cm</td><td className="p-2.5">S / M</td></tr>
-                  <tr><td className="p-2.5 font-medium">40 - 41</td><td className="p-2.5">40 - 41 cm</td><td className="p-2.5">65 cm</td><td className="p-2.5">L</td></tr>
-                  <tr><td className="p-2.5 font-medium">42 - 43</td><td className="p-2.5">42 - 43 cm</td><td className="p-2.5">66 cm</td><td className="p-2.5">XL</td></tr>
-                  <tr><td className="p-2.5 font-medium">44</td><td className="p-2.5">44 cm</td><td className="p-2.5">67 cm</td><td className="p-2.5">XXL</td></tr>
+                  <tr><td className="p-2.5 font-medium">S</td><td className="p-2.5">90 – 94</td><td className="p-2.5">42 – 43</td><td className="p-2.5">67</td><td className="p-2.5">32</td></tr>
+                  <tr><td className="p-2.5 font-medium">M</td><td className="p-2.5">95 – 99</td><td className="p-2.5">44 – 45</td><td className="p-2.5">69</td><td className="p-2.5">34</td></tr>
+                  <tr><td className="p-2.5 font-medium">L</td><td className="p-2.5">100 – 105</td><td className="p-2.5">46 – 47</td><td className="p-2.5">71</td><td className="p-2.5">36</td></tr>
+                  <tr><td className="p-2.5 font-medium">XL</td><td className="p-2.5">106 – 111</td><td className="p-2.5">48 – 49</td><td className="p-2.5">73</td><td className="p-2.5">38</td></tr>
+                  <tr><td className="p-2.5 font-medium">XXL</td><td className="p-2.5">112 – 117</td><td className="p-2.5">50 – 51</td><td className="p-2.5">75</td><td className="p-2.5">40</td></tr>
                 </tbody>
               </table>
             )}
 
-            {tab === 'trousers' && (
-              <table className="w-full text-xs text-left text-[#0D1B2A]/80">
-                <thead className="bg-[#EFE9DE] uppercase text-[10px] text-[#0D1B2A] tracking-wider">
-                  <tr>
-                    <th className="p-2.5">Taille UE / TN</th>
-                    <th className="p-2.5">Tour de ceinture (cm)</th>
-                    <th className="p-2.5">Bassin (cm)</th>
-                    <th className="p-2.5">Largeur bas (cm)</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#0D1B2A]/10 font-light">
-                  <tr><td className="p-2.5 font-medium">40</td><td className="p-2.5">80 - 82</td><td className="p-2.5">96</td><td className="p-2.5">18.5</td></tr>
-                  <tr><td className="p-2.5 font-medium">42</td><td className="p-2.5">84 - 86</td><td className="p-2.5">100</td><td className="p-2.5">19</td></tr>
-                  <tr><td className="p-2.5 font-medium">44</td><td className="p-2.5">88 - 90</td><td className="p-2.5">104</td><td className="p-2.5">19.5</td></tr>
-                  <tr><td className="p-2.5 font-medium">46</td><td className="p-2.5">92 - 95</td><td className="p-2.5">108</td><td className="p-2.5">20</td></tr>
-                  <tr><td className="p-2.5 font-medium">48</td><td className="p-2.5">96 - 100</td><td className="p-2.5">112</td><td className="p-2.5">20.5</td></tr>
-                </tbody>
-              </table>
-            )}
-
-            {tab === 'shoes' && (
-              <table className="w-full text-xs text-left text-[#0D1B2A]/80">
-                <thead className="bg-[#EFE9DE] uppercase text-[10px] text-[#0D1B2A] tracking-wider">
-                  <tr>
-                    <th className="p-2.5">Pointure UE / TN</th>
-                    <th className="p-2.5">Pointure UK</th>
-                    <th className="p-2.5">Longueur du pied (cm)</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#0D1B2A]/10 font-light">
-                  <tr><td className="p-2.5 font-medium">40</td><td className="p-2.5">6.5</td><td className="p-2.5">25.5 cm</td></tr>
-                  <tr><td className="p-2.5 font-medium">41</td><td className="p-2.5">7.5</td><td className="p-2.5">26.2 cm</td></tr>
-                  <tr><td className="p-2.5 font-medium">42</td><td className="p-2.5">8.0</td><td className="p-2.5">26.8 cm</td></tr>
-                  <tr><td className="p-2.5 font-medium">43</td><td className="p-2.5">9.0</td><td className="p-2.5">27.5 cm</td></tr>
-                  <tr><td className="p-2.5 font-medium">44</td><td className="p-2.5">10.0</td><td className="p-2.5">28.2 cm</td></tr>
-                  <tr><td className="p-2.5 font-medium">45</td><td className="p-2.5">10.5</td><td className="p-2.5">29.0 cm</td></tr>
-                </tbody>
-              </table>
+            {tab === 'advice' && (
+              <div className="space-y-3 text-xs text-[#0D1B2A]/80 leading-relaxed font-light">
+                <div className="p-3.5 bg-white border border-[#0D1B2A]/10 space-y-1">
+                  <strong className="text-[#0D1B2A] font-serif text-sm block">Coupe Sartoriale Ajustée</strong>
+                  <p>
+                    Nos polos et t-shirts en coton Giza et Supima possèdent une coupe droite semi-ajustée qui souligne les épaules tout en laissant une belle liberté de mouvement au niveau de la taille.
+                  </p>
+                </div>
+                <div className="p-3.5 bg-white border border-[#0D1B2A]/10 space-y-1">
+                  <strong className="text-[#0D1B2A] font-serif text-sm block">Pour les Pulls & Tricots</strong>
+                  <p>
+                    Si vous comptez porter votre pull zippé ou torsadé par-dessus un t-shirt épais ou une chemise, nous vous conseillons de privilégier votre taille habituelle ou une taille au-dessus pour un tombé plus décontracté.
+                  </p>
+                </div>
+              </div>
             )}
           </div>
 
-          <div className="p-4 bg-[#EFE9DE] border border-[#0D1B2A]/10 text-xs text-[#0D1B2A]/80 flex items-start gap-2">
+          <div className="p-4 bg-[#EFE9DE] border border-[#0D1B2A]/10 text-xs text-[#0D1B2A]/80 flex items-start gap-2.5">
             <Check className="w-4 h-4 text-[#1B3A2B] shrink-0 mt-0.5" />
             <p>
-              Besoin d'un ourlet ou d'une retouche d'aisance ? Les retouches d'ourlet sont offertes lors de votre premier passage dans notre salon des Berges du Lac II.
+              Un doute sur votre taille ? Notre service conciergerie peut inclure deux tailles à l'essayage lors de la livraison à domicile sur le Grand Tunis. Contactez-nous sur WhatsApp au (+216) 71 880 200.
             </p>
           </div>
         </div>

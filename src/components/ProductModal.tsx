@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, ShoppingBag, Check, Ruler, Truck, Shield } from 'lucide-react';
 import { Product, Language } from '../types';
 import { TRANSLATIONS } from '../translations';
@@ -25,6 +25,16 @@ export const ProductModal: React.FC<ProductModalProps> = ({
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const t = TRANSLATIONS[language];
+
+  // Sync state whenever the active product changes
+  useEffect(() => {
+    if (product) {
+      setSelectedImage(product.image);
+      setSelectedSize(product.sizes[0] || 'M');
+      setQuantity(1);
+      setAdded(false);
+    }
+  }, [product]);
 
   const handleAdd = () => {
     onAddToCart(product, selectedSize, quantity);
@@ -66,6 +76,13 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 alt={product.name}
                 className="w-full h-full object-cover object-center transition-all duration-300"
               />
+              {product.badge && (
+                <div className="absolute top-3 left-3">
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-[#C8A97E] bg-[#0D1B2A]/90 px-2.5 py-1 backdrop-blur-xs font-medium border border-[#C8A97E]/30">
+                    {product.badge}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Thumbnails */}
@@ -76,13 +93,13 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                     key={idx}
                     type="button"
                     onClick={() => setSelectedImage(img)}
-                    className={`w-16 h-20 overflow-hidden border ${
+                    className={`w-16 h-20 overflow-hidden border transition-all ${
                       selectedImage === img
-                        ? 'border-[#0D1B2A] ring-1 ring-[#0D1B2A]'
+                        ? 'border-[#0D1B2A] ring-1 ring-[#0D1B2A] opacity-100'
                         : 'border-[#0D1B2A]/10 opacity-70 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} alt="Aperçu" className="w-full h-full object-cover" />
+                    <img src={img} alt="Aperçu miniature" className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
@@ -93,7 +110,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
           <div className="md:col-span-6 flex flex-col justify-between">
             <div className="space-y-5">
               <div>
-                <span className="text-xs uppercase tracking-wider text-[#C8A97E] font-medium">
+                <span className="text-xs uppercase tracking-wider text-[#C8A97E] font-medium block">
                   {product.fabric}
                 </span>
                 <h2 className="font-serif text-2xl sm:text-3xl text-[#0D1B2A] mt-1 font-normal leading-snug">
@@ -197,7 +214,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 type="button"
                 onClick={handleAdd}
                 disabled={added}
-                className="w-full py-3.5 bg-[#0D1B2A] hover:bg-[#1B3A2B] text-[#F7F3EC] text-xs uppercase tracking-[0.2em] font-medium transition-colors flex items-center justify-center gap-2"
+                className="w-full py-3.5 bg-[#0D1B2A] hover:bg-[#1B3A2B] text-[#F7F3EC] text-xs uppercase tracking-[0.2em] font-medium transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 {added ? (
                   <>
