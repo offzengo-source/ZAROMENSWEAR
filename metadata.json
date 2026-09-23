@@ -1,0 +1,6 @@
+{
+  "name": "ZAROMENSWEAR",
+  "description": "Maison de confection masculine tunisienne au positionnement old money et élégance discrète classique.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: "Cormorant Garamond", Georgia, Cambria, serif;
+    --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+    --font-arabic: "Amiri", "Cormorant Garamond", serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #F7F3EC;
+    color: #0D1B2A;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  [dir="rtl"] h1, 
+  [dir="rtl"] h2, 
+  [dir="rtl"] h3, 
+  [dir="rtl"] h4, 
+  [dir="rtl"] .font-serif {
+    font-family: var(--font-arabic);
+  }
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F3EC;
+}
+::-webkit-scrollbar-thumb {
+  background: #C8A97E;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1B3A2B;
+}
+
+/* Subtle Berber geometric line separator */
+.berber-divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.berber-divider::before,
+.berber-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(200, 169, 126, 0.4), transparent);
+}
